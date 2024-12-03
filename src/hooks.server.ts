@@ -1,8 +1,9 @@
 import type { Handle } from '@sveltejs/kit';
 import { i18n } from '$lib/i18n';
-import { db } from '$lib/server/db';
+import { setSessionTokenCookie, validateSessionToken } from '$lib/server/session';
+import { deleteSessionTokenCookie } from '$lib/server/session';
 
-export const handle: Handle = (input) => {
+export const handle: Handle = async (input) => {
 	const handleParaglide: Handle = i18n.handle();
 	handleParaglide(input);
 
@@ -10,27 +11,18 @@ export const handle: Handle = (input) => {
 
 	const sessionId = event.cookies.get('session_id');
 
-	event.locals.getUser = async (id?: number) => {
-		if (!id) {
-			if (!sessionId) {
-				return null;
-			}
+	if (!sessionId) {
+		event.locals.user = null;
+		event.locals.session = null;
+		return resolve(event);
+	}
 
-			const session = await db.query.session.findFirst({
-				where: ({ id }, { eq }) => eq(id, sessionId),
-				with: { user: { with: { posts: { with: { author: true } } } } }
-			});
+	const { user, session } = await validateSessionToken(sessionId);
+	if (session !== null) setSessionTokenCookie(event, sessionId, session.expiresAt);
+	else deleteSessionTokenCookie(event);
 
-			return session?.user;
-		}
-
-		const user = await db.query.user.findFirst({
-			where: ({ id: userId }, { eq }) => eq(userId, id),
-			with: { posts: { with: { author: true } } }
-		});
-
-		return user;
-	};
+	event.locals.user = user;
+	event.locals.session = session;
 
 	return resolve(event);
 };

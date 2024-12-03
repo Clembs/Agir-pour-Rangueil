@@ -1,5 +1,5 @@
-export async function load({ locals: { getUser } }) {
+export async function load({ locals }) {
 	return {
-		user: await getUser()
+		user: locals.user
 	};
 }
