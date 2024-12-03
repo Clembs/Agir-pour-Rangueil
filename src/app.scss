@@ -44,6 +44,7 @@
 	margin: 0;
 	padding: 0;
 	user-select: none;
+	-webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -58,6 +59,11 @@ body {
 	color: var(--color-on-surface);
 	min-height: 100vh;
 	min-height: 100dvh;
+}
+
+html,
+body {
+	overscroll-behavior: none;
 }
 
 a {
