@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { formatRelativeTime } from '$lib/format';
-	import { language } from '$lib/i18n';
 	import type { Post } from '$lib/server/db/types';
 	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { languageTag } from '$lib/paraglide/runtime.js';
 
 	let {
 		post,
@@ -33,7 +33,7 @@
 			</a>
 			<span class="subtext"> • </span>
 			<time class="subtext" datetime={post.createdAt?.toISOString()}>
-				{formatRelativeTime(post.createdAt, $language)}
+				{formatRelativeTime(post.createdAt, languageTag())}
 			</time>
 		</div>
 
