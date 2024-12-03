@@ -1,3 +1,10 @@
+:root {
+	--color-surface: #171d19;
+	--color-on-surface: #f5fbf5;
+	--color-surface-dim: #404943;
+	--color-on-surface-dim: #cfe9d8;
+}
+
 *,
 *::before,
 *::after {
@@ -15,7 +22,8 @@ body {
 .viewport {
 	margin: 0 auto;
 	max-width: 500px;
-	background-color: white;
+	background-color: var(--color-surface);
+	color: var(--color-on-surface);
 	height: 100vh;
 	height: 100dvh;
 	display: flex;
@@ -37,4 +45,9 @@ video,
 iframe {
 	max-width: 100%;
 	height: auto;
+}
+
+.subtext {
+	color: var(--color-on-surface-dim);
+	font-size: 14px;
 }

@@ -51,7 +51,8 @@
 <style lang="scss">
 	nav {
 		margin-top: auto;
-		border-top: 1px solid black;
+		backdrop-filter: blur(999px);
+		background-color: rgba(0, 0, 0, 0.5);
 
 		ul {
 			display: flex;
@@ -80,7 +81,7 @@
 
 				&[aria-current='true'] {
 					.icon {
-						background-color: #f0f0f0;
+						background-color: var(--color-surface-dim);
 					}
 				}
 			}
