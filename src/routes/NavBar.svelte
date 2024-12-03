@@ -39,7 +39,7 @@
 			<li>
 				<a href={item.href} aria-current={isCurrent}>
 					<div class="icon">
-						<svelte:component this={item.icon} weight={isCurrent ? 'fill' : 'regular'} />
+						<svelte:component this={item.icon} size={20} weight={isCurrent ? 'fill' : 'regular'} />
 					</div>
 					{item.label}
 				</a>
@@ -75,12 +75,12 @@
 				align-items: center;
 				gap: 0.25rem;
 				padding: 0.75rem 0;
-				font-size: 12px;
+				font-size: 11px;
 
 				.icon {
 					display: grid;
 					place-items: center;
-					padding: 0.25rem 1.5rem;
+					padding: 0.25rem 1rem;
 					border-radius: 999px;
 				}
 
