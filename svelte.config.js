@@ -8,7 +8,10 @@ const config = {
 	preprocess: [phosphorSvelteOptimize(), vitePreprocess()],
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		alias: {
+			$components: './src/components'
+		}
 	}
 };
 
