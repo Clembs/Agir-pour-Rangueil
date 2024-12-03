@@ -4,6 +4,7 @@
 	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { languageTag } from '$lib/paraglide/runtime.js';
+	import Skeleton from './Skeleton.svelte';
 
 	let {
 		post,
@@ -21,14 +22,19 @@
 
 <article>
 	{#if skeleton || !post}
-		<div class="skeleton-content"></div>
-		<div class="skeleton-image"></div>
-		<div class="skeleton-content"></div>
+		<div class="header">
+			<div class="profile">
+				<Skeleton height="2rem" width="2rem" rounded />
+				<Skeleton />
+			</div>
+		</div>
+		<Skeleton style="aspect-ratio: 1;" height="auto" width="100%" rounded="slightly" />
+		<Skeleton />
 	{:else}
 		<div class="header">
 			<!-- TODO: include author avatar -->
 			<a href="/users/{post.author.id}" class="profile">
-				<div class="skeleton-avatar"></div>
+				<Skeleton height="2rem" width="2rem" rounded no-pulse />
 				{post.author.username}
 			</a>
 			<span class="subtext"> • </span>
@@ -78,6 +84,7 @@
 			display: flex;
 			align-items: center;
 			gap: 0.5ch;
+			width: 100%;
 
 			.profile {
 				display: inline-flex;
@@ -92,34 +99,13 @@
 			}
 		}
 
-		.skeleton-avatar {
-			display: inline-block;
-			background-color: var(--color-surface-dim);
-			border-radius: 999px;
-			width: 2rem;
-			height: 2rem;
-		}
-
-		.skeleton-image {
-			background: var(--color-surface-dim);
-		}
-
-		.skeleton-content {
-			height: 1.5rem;
-			background: var(--color-surface-dim);
-		}
-
 		img {
 			object-fit: cover;
 			object-position: center;
-		}
-
-		img,
-		.skeleton-image {
+			box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
 			border-radius: 0.5rem;
 			aspect-ratio: 1;
 			width: 100%;
-			box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
 		}
 
 		.buttons {
