@@ -37,7 +37,8 @@
 			</time>
 		</div>
 
-		<img src={post.imageUrl} alt="Related to the post" />
+		<!-- random tilt between -2 and 2deg -->
+		<img src={post.imageUrl} alt="Related to the post" style:rotate="{Math.random() * 2 - 1}deg" />
 
 		<div class="profile-content">
 			<p>{post.content}</p>
@@ -71,7 +72,7 @@
 		border-radius: 0.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 1rem;
 
 		.header {
 			display: flex;
@@ -118,6 +119,7 @@
 			border-radius: 0.5rem;
 			aspect-ratio: 1;
 			width: 100%;
+			box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
 		}
 
 		.buttons {
