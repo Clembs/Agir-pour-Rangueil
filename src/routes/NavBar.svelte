@@ -39,7 +39,7 @@
 			<li>
 				<a href={item.href} aria-current={isCurrent}>
 					<div class="icon">
-						<svelte:component this={item.icon} weight={isCurrent ? 'fill' : 'duotone'} />
+						<svelte:component this={item.icon} weight={isCurrent ? 'fill' : 'regular'} />
 					</div>
 					{item.label}
 				</a>
@@ -50,9 +50,14 @@
 
 <style lang="scss">
 	nav {
-		margin-top: auto;
-		backdrop-filter: blur(999px);
-		background-color: rgba(0, 0, 0, 0.5);
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		backdrop-filter: blur(99px);
+		background-color: rgba(255, 255, 255, 0.5);
+		z-index: 1000;
 
 		ul {
 			display: flex;
@@ -69,7 +74,7 @@
 				flex-direction: column;
 				align-items: center;
 				gap: 0.25rem;
-				padding: 0.5rem 0;
+				padding: 0.75rem 0;
 				font-size: 12px;
 
 				.icon {
@@ -80,8 +85,10 @@
 				}
 
 				&[aria-current='true'] {
+					font-weight: 600;
 					.icon {
-						background-color: var(--color-surface-dim);
+						color: var(--color-surface);
+						background-color: var(--color-on-surface);
 					}
 				}
 			}

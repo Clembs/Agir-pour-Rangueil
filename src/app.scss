@@ -1,8 +1,40 @@
+@font-face {
+	font-family: 'OpenRunde';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/OpenRunde-Regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'OpenRunde';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url('/fonts/OpenRunde-Medium.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'OpenRunde';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('/fonts/OpenRunde-Semibold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'OpenRunde';
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/OpenRunde-Bold.woff2') format('woff2');
+}
+
 :root {
-	--color-surface: #171d19;
-	--color-on-surface: #f5fbf5;
-	--color-surface-dim: #404943;
-	--color-on-surface-dim: #cfe9d8;
+	--color-surface: hsl(33, 28%, 80%);
+	--color-on-surface: #000000;
+	--color-surface-dim: hsl(33, 28%, 70%);
+	--color-on-surface-dim: #000000;
 }
 
 *,
@@ -14,20 +46,16 @@
 	user-select: none;
 }
 
-body {
-	font-family: sans-serif;
+html {
 	background-color: black;
 }
 
-.viewport {
-	margin: 0 auto;
-	max-width: 500px;
-	background-color: var(--color-surface);
+body {
+	font-family: 'OpenRunde', sans-serif;
+	background-image: url('/background-pattern.jpg');
+	background-position: center;
+	background-attachment: fixed;
 	color: var(--color-on-surface);
-	height: 100vh;
-	height: 100dvh;
-	display: flex;
-	flex-direction: column;
 }
 
 a {
@@ -36,8 +64,13 @@ a {
 }
 
 main {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 500px;
+	position: relative;
 	padding: 1.5rem;
-	overflow-x: scroll;
+	padding-bottom: 5rem;
 }
 
 img,
