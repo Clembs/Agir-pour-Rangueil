@@ -1,13 +1,16 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
+	import Header from '../../components/Header.svelte';
 	import Post from '../../components/Post.svelte';
 
 	let { data } = $props();
 </script>
 
-<main>
-	<h1>{m.home()}</h1>
+<Header>
+	{m.home()}
+</Header>
 
+<main>
 	<div class="posts">
 		{#await data.posts}
 			<Post skeleton />
@@ -24,6 +27,10 @@
 </main>
 
 <style lang="scss">
+	main {
+		padding-top: 0;
+	}
+
 	.posts {
 		display: flex;
 		flex-direction: column;
