@@ -18,15 +18,14 @@ export const handle: Handle = (input) => {
 
 			const session = await db.query.session.findFirst({
 				where: ({ id }, { eq }) => eq(id, sessionId),
-				with: { user: { with: { posts: { with: { author: true } } } } }
+				with: { user: true }
 			});
 
 			return session?.user;
 		}
 
 		const user = await db.query.user.findFirst({
-			where: ({ id: userId }, { eq }) => eq(userId, id),
-			with: { posts: { with: { author: true } } }
+			where: ({ id: userId }, { eq }) => eq(userId, id)
 		});
 
 		return user;
