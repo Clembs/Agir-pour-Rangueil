@@ -33,7 +33,7 @@
 	{:else}
 		<div class="header">
 			<!-- TODO: include author avatar -->
-			<a href="/users/{post.author.id}" class="profile">
+			<a href="/profil/{post.author.id}" class="profile">
 				<Skeleton height="2rem" width="2rem" rounded no-pulse />
 				{post.author.username}
 			</a>
