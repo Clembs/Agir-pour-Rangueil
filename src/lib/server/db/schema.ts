@@ -1,6 +1,66 @@
-import { mysqlTable, serial, int } from 'drizzle-orm/mysql-core';
+import { relations } from 'drizzle-orm';
+import { mysqlTable, int, varchar, text, primaryKey, timestamp } from 'drizzle-orm/mysql-core';
 
 export const user = mysqlTable('user', {
-	id: serial('id').primaryKey(),
-	age: int('age')
+	id: int('id').autoincrement().primaryKey(),
+	username: varchar('username', { length: 32 }).unique(),
+	acorns: int('acorns').notNull().default(0)
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+	likes: many(like),
+	posts: many(post)
+}));
+
+export const session = mysqlTable('session', {
+	id: varchar('id', { length: 32 }).primaryKey(),
+	userId: int('userId').references(() => user.id),
+	expiresAt: timestamp('expiresAt').notNull()
+});
+
+export const sessionRelations = relations(session, ({ one }) => ({
+	user: one(user, {
+		fields: [session.userId],
+		references: [user.id]
+	})
+}));
+
+export const post = mysqlTable('post', {
+	id: int('id').autoincrement().primaryKey(),
+	authorId: int('author_id')
+		.notNull()
+		.references(() => user.id),
+	content: varchar('content', { length: 260 }).notNull(),
+	imageUrl: text('image_url').notNull(),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
+export const postRelations = relations(post, ({ one, many }) => ({
+	author: one(user, {
+		fields: [post.authorId],
+		references: [user.id]
+	}),
+	likes: many(like)
+}));
+
+export const like = mysqlTable(
+	'like',
+	{
+		userId: int('userId'),
+		postId: int('postId')
+	},
+	({ userId, postId }) => ({
+		id: primaryKey({ columns: [userId, postId] })
+	})
+);
+
+export const likeRelations = relations(like, ({ one }) => ({
+	post: one(post, {
+		fields: [like.postId],
+		references: [post.id]
+	}),
+	user: one(user, {
+		fields: [like.userId],
+		references: [user.id]
+	})
+}));
