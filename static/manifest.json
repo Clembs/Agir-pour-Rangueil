@@ -1,0 +1,46 @@
+{
+	"short_name": "IUT Vert",
+	"name": "IUT Vert",
+	"icons": [
+		{
+			"src": "assets/icons/icon-72.png",
+			"sizes": "72x72",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "assets/icons/icon-128.png",
+			"sizes": "128x128",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "assets/icons/icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "assets/icons/icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		}
+	],
+	"screenshots": [
+		{
+			"src": "assets/screenshots/accueil.png",
+			"sizes": "431x930",
+			"type": "image/png",
+			"form_factor": "narrow"
+		}
+	],
+	"id": "/?source=pwa",
+	"start_url": "/?source=pwa",
+	"background_color": "#dacdbe",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#0f6100",
+	"description": "Partagez vos actions écologiques",
+	"orientation": "portrait"
+}
