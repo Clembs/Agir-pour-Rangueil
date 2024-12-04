@@ -11,7 +11,7 @@ export function formatRelativeTime(date: Date, locale: string): string {
 	}
 
 	return new Intl.RelativeTimeFormat(locale, {
-		style: 'long',
+		style: 'short',
 		numeric: 'auto'
 	}).format(amount, unit);
 }

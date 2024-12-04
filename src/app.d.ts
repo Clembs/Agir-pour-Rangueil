@@ -1,14 +1,13 @@
-import type { User, Session, UserWithPosts } from '$lib/server/db/types';
+import type { User } from '$lib/server/db/types';
 
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: User | null;
-			session: Session | null;
+			getUser: (id?: number) => Promise<User | null | undefined>;
 		}
 		interface PageData {
-			user: UserWithPosts | null | undefined;
+			user: User | null | undefined;
 		}
 		// interface PageState {}
 		// interface Platform {}

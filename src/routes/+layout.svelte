@@ -11,14 +11,12 @@
 <ParaglideJS {i18n}>
 	<IconContext
 		values={{
-			size: 24,
-			weight: 'duotone'
+			size: 24
+			// weight: 'duotone'
 		}}
 	>
-		<div class="viewport">
-			{@render children()}
+		{@render children()}
 
-			<NavBar />
-		</div>
+		<NavBar />
 	</IconContext>
 </ParaglideJS>

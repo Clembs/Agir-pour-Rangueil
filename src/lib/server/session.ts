@@ -35,12 +35,12 @@ export async function validateSessionToken(token: string) {
 	return { session, user };
 }
 
-export function invalidateSesion(sesionId: string) {
-	db.delete(sessionTable).where(eq(sessionTable.id, sesionId));
+export function invalidateSesion(sessionId: string) {
+	db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 }
 
 export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
-	event.cookies.set('session', token, {
+	event.cookies.set('session_id', token, {
 		httpOnly: true,
 		path: '/',
 		secure: import.meta.env.PROD,
@@ -50,8 +50,7 @@ export function setSessionTokenCookie(event: RequestEvent, token: string, expire
 }
 
 export function deleteSessionTokenCookie(event: RequestEvent) {
-	event.cookies.set('session', '', {
-		httpOnly: true,
+	event.cookies.delete('session_id', {
 		path: '/',
 		secure: import.meta.env.PROD,
 		sameSite: 'lax',

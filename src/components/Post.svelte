@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { formatRelativeTime } from '$lib/format';
-	import { language } from '$lib/i18n';
 	import type { Post } from '$lib/server/db/types';
 	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { languageTag } from '$lib/paraglide/runtime.js';
+	import Skeleton from './Skeleton.svelte';
 
 	let {
 		post,
@@ -21,18 +22,29 @@
 
 <article>
 	{#if skeleton || !post}
-		<div class="skeleton-image"></div>
-		<div class="skeleton-content"></div>
+		<div class="header">
+			<div class="profile">
+				<Skeleton height="2rem" width="2rem" rounded />
+				<Skeleton />
+			</div>
+		</div>
+		<Skeleton style="aspect-ratio: 1;" height="auto" width="100%" rounded="slightly" />
+		<Skeleton />
 	{:else}
 		<div class="header">
 			<!-- TODO: include author avatar -->
-			<span class="username">@{post.author.username}</span>
-			<time datetime={post.createdAt?.toISOString()}>
-				{formatRelativeTime(post.createdAt, $language)}
+			<a href="/profil/{post.author.id}" class="profile">
+				<Skeleton height="2rem" width="2rem" rounded no-pulse />
+				{post.author.username}
+			</a>
+			<span class="subtext"> • </span>
+			<time class="subtext" datetime={post.createdAt?.toISOString()}>
+				{formatRelativeTime(post.createdAt, languageTag())}
 			</time>
 		</div>
 
-		<img src={post.imageUrl} alt="Related to the post" />
+		<!-- random tilt between -2 and 2deg -->
+		<img src={post.imageUrl} alt="Related to the post" style:rotate="{Math.random() * 2 - 1}deg" />
 
 		<div class="profile-content">
 			<p>{post.content}</p>
@@ -42,13 +54,13 @@
 		<div class="buttons">
 			<div class="primary-actions">
 				<button>
-					<Heart />
+					<Heart size={32} />
 				</button>
 				<button>
-					<ChatCircle />
+					<ChatCircle size={32} />
 				</button>
 				<button>
-					<ShareFat />
+					<ShareFat size={32} />
 				</button>
 			</div>
 
@@ -70,37 +82,61 @@
 
 		.header {
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
+			gap: 0.5ch;
+			width: 100%;
 
-			.username {
+			.profile {
+				display: inline-flex;
+				gap: 0.5rem;
+				align-items: center;
 				font-size: 1.1rem;
 				font-weight: 500;
 			}
-		}
 
-		.skeleton-image {
-			width: 300px;
-			height: 300px;
-			background: #ddd;
-		}
-
-		.skeleton-content {
-			height: 1.5rem;
-			background: #ddd;
+			.subtext {
+				transform: translateY(1px);
+			}
 		}
 
 		img {
-			aspect-ratio: 1;
-			// height: auto;
 			object-fit: cover;
 			object-position: center;
+			box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+			border-radius: 0.5rem;
+			aspect-ratio: 1;
+			width: 100%;
 		}
 
 		.buttons {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+
+			.primary-actions {
+				display: flex;
+				gap: 1rem;
+
+				button {
+					display: grid;
+					place-items: center;
+					padding: 0.5rem;
+					margin: -0.5rem;
+					border: none;
+					background: none;
+					cursor: pointer;
+					background-color: transparent;
+					color: inherit;
+				}
+			}
+
+			.view-comments-button {
+				padding: 0.5rem 1rem;
+				border-radius: 0.5rem;
+				background-color: var(--color-surface-dim);
+				font-weight: 500;
+				font-size: 14px;
+			}
 		}
 	}
 </style>
