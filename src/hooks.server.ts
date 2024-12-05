@@ -1,7 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import { i18n } from '$lib/i18n';
-import { setSessionTokenCookie, validateSessionToken } from '$lib/server/session';
-import { deleteSessionTokenCookie } from '$lib/server/session';
+import { refreshSession } from '$lib/server/session';
 import { db } from '$lib/server/db';
 
 export const handle: Handle = async (input) => {
@@ -12,19 +11,7 @@ export const handle: Handle = async (input) => {
 
 	const sessionId = event.cookies.get('session_id');
 
-	if (!sessionId) {
-		// event.locals.user = null;
-		// event.locals.session = null;
-		return resolve(event);
-	}
-
-	const { user, session } = await validateSessionToken(sessionId);
-
-	if (session !== null) {
-		setSessionTokenCookie(event, sessionId, session.expiresAt);
-	} else {
-		deleteSessionTokenCookie(event);
-	}
+	event.locals.getSession = async () => (sessionId ? await refreshSession(event, sessionId) : null);
 
 	event.locals.getUser = async (id?: number) => {
 		if (!id) {
