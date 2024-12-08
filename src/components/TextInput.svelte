@@ -8,6 +8,7 @@
 		name,
 		required = true,
 		multiline = false,
+		minheight = 200,
 		value = $bindable(''),
 		...restProps
 	}: HTMLInputAttributes &
@@ -17,6 +18,7 @@
 			error?: string;
 			value?: string;
 			multiline?: boolean;
+			minheight?: number;
 		} = $props();
 </script>
 
@@ -31,7 +33,14 @@
 		{#if !multiline}
 			<input {type} id={name} {name} {required} {...restProps} bind:value />
 		{:else}
-			<textarea id={name} {name} {required} {...restProps} bind:value></textarea>
+			<textarea
+				style="min-height: {minheight}px"
+				id={name}
+				{name}
+				{required}
+				{...restProps}
+				bind:value
+			></textarea>
 		{/if}
 	</div>
 
@@ -61,17 +70,14 @@
 
 		.label-text,
 		.error {
-			font-weight: 600;
 			font-size: 0.815rem;
-			margin-left: 0.25rem;
+			padding: 0.25rem 0.5rem;
 		}
 
 		.input {
 			display: flex;
 			align-items: center;
-			border: 2px solid var(--color-surface);
 			border-radius: 1rem;
-			margin-top: 0.5rem;
 
 			&.error {
 				border-color: red;
@@ -85,6 +91,15 @@
 				width: 100%;
 				background-color: white;
 				font-size: 16px;
+				border: none;
+			}
+
+			&:focus-within {
+				box-shadow: 0px 0px 0px 2px var(--color-surface);
+			}
+
+			textarea {
+				resize: none;
 			}
 		}
 
