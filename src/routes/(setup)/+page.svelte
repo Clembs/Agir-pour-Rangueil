@@ -18,11 +18,17 @@
 		</li>
 	</ul>
 
-	<Button variant="colored" color="blue" href="/login/google">
+	<Button variant="colored" background-color="blue" text-color="white" href="/login/google">
 		<GoogleLogo weight="bold" />
 		Se connecter avec Google
 	</Button>
-	<Button disabled variant="colored" color="black" onclick={() => console.log('h')}>
+	<Button
+		disabled
+		variant="colored"
+		background-color="black"
+		text-color="white"
+		onclick={() => console.log('h')}
+	>
 		<AppleLogo weight="fill" />
 		Se connecter avec Apple
 	</Button>
