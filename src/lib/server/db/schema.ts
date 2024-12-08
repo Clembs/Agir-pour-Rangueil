@@ -3,7 +3,8 @@ import { mysqlTable, int, varchar, text, primaryKey, timestamp } from 'drizzle-o
 
 export const user = mysqlTable('user', {
 	id: int('id').autoincrement().primaryKey(),
-	username: varchar('username', { length: 32 }).unique(),
+	googleId: varchar('google_id', { length: 255 }).unique().notNull(),
+	username: varchar('username', { length: 32 }).unique().notNull(),
 	acorns: int('acorns').notNull().default(0)
 });
 

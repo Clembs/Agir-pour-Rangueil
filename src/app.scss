@@ -45,7 +45,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	// user-select: none;
+	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	-webkit-user-drag: none;
@@ -115,4 +115,11 @@ iframe {
 .subtext {
 	color: var(--color-on-surface-dim);
 	font-size: 14px;
+}
+
+button,
+input {
+	font: inherit;
+	border: none;
+	outline: none;
 }

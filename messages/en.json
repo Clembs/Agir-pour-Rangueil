@@ -7,5 +7,18 @@
 	"my_profile": "My profile",
 	"comments": "Comments",
 	"posts": "Posts",
-	"acorns": "Acorns"
+	"acorns": "Acorns",
+	"button_continue": "Continue",
+	"welcome_header": "Welcome to IUT Vert",
+	"welcome_description": "A social media app developed by students from IUT Paul Sabatier, made to promote ecological actions.",
+	"welcome_post": "Post pictures of your ecological actions",
+	"welcome_acorns": "Earn acorns and contribute to the virtual forest",
+	"welcome_quiz": "Test your knowledge with our quizzes",
+	"login_with_google": "Login with Google",
+	"login_with_apple": "Login with Apple",
+	"choose_username_header": "Choose a username",
+	"change_username_description": "This username will be visible to other users. It must be between 3 and 20 characters.",
+	"username": "Username",
+	"change_username_error_taken": "This username is already taken",
+	"change_username_error_length": "Username must be between 3 and 20 characters"
 }

@@ -1,14 +1,17 @@
 import type { Handle } from '@sveltejs/kit';
 import { i18n } from '$lib/i18n';
+import { refreshSession } from '$lib/server/session';
 import { db } from '$lib/server/db';
 
-export const handle: Handle = (input) => {
+export const handle: Handle = async (input) => {
 	const handleParaglide: Handle = i18n.handle();
 	handleParaglide(input);
 
 	const { event, resolve } = input;
 
 	const sessionId = event.cookies.get('session_id');
+
+	event.locals.getSession = async () => (sessionId ? await refreshSession(event, sessionId) : null);
 
 	event.locals.getUser = async (id?: number) => {
 		if (!id) {
