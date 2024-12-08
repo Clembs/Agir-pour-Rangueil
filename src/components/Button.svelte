@@ -52,7 +52,7 @@
 		border-radius: 1rem;
 
 		&.leaf {
-			background-image: url('./assets/leaf.png');
+			background-image: url('/assets/leaf.png');
 			background-position: bottom right;
 			text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
 			font-weight: 500;
