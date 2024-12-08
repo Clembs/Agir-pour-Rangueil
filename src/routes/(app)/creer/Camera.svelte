@@ -9,12 +9,22 @@
 	let currentTrack = $state<MediaStreamTrack>();
 	let videoDevices = $state<MediaDeviceInfo[]>([]);
 
+	let {
+		oncapture
+	}: {
+		oncapture: (image: string) => void;
+	} = $props();
+
 	onMount(async () => {
 		if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
 			try {
 				// get the first camera
 				const stream = await navigator.mediaDevices.getUserMedia({
-					video: true
+					video: {
+						facingMode: {
+							ideal: localStorage.getItem('cameraFacingMode') || 'user'
+						}
+					}
 				});
 
 				if (stream.active && videoEl) {
@@ -35,22 +45,49 @@
 		}
 	});
 
-	function capture() {
+	async function capture() {
 		if (!videoEl || videoState === 'error' || !currentTrack || !wrapperEl) return;
 
+		// haptic feedback
+		navigator.vibrate(10);
+
+		// pause the video feed to animate
 		videoEl.pause();
-		wrapperEl.animate([{ scale: 1 }, { scale: 0.8 }, { scale: 1 }], { duration: 250 });
+		const animation = wrapperEl.animate([{ scale: 1 }, { scale: 0.9 }, { scale: 1 }], {
+			duration: 300
+		});
+		// let the animation finish
+		await animation.finished;
 
 		const canvas = document.createElement('canvas');
-		canvas.width = videoEl.videoWidth;
-		canvas.height = videoEl.videoHeight;
+		// get the smallest dimension of the video feed (depending on the orientation usually)
+		const minDimension = Math.min(videoEl.videoWidth, videoEl.videoHeight);
+		canvas.width = minDimension;
+		canvas.height = minDimension;
 
 		const context = canvas.getContext('2d');
-		context?.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
 
-		const data = canvas.toDataURL('image/png');
+		// get the X/Y starting offset to center the image
+		const offsetX = (videoEl.videoWidth - minDimension) / 2;
+		const offsetY = (videoEl.videoHeight - minDimension) / 2;
 
-		// TODO: send to the server
+		// draw to canvas
+		context?.drawImage(
+			videoEl,
+			offsetX,
+			offsetY,
+			minDimension,
+			minDimension,
+			0,
+			0,
+			canvas.width,
+			canvas.height
+		);
+
+		// export to a base64 webp
+		const data = canvas.toDataURL('image/webp');
+
+		oncapture(data);
 	}
 
 	async function switchCamera() {
@@ -67,10 +104,15 @@
 		const arrows = document.getElementById('arrows');
 		arrows?.animate([{ rotate: '0deg' }, { rotate: '-180deg' }], { duration: 125 });
 
+		const newFacingMode = currentTrack.getSettings().facingMode === 'user' ? 'environment' : 'user';
+
+		// haptic feedback
+		navigator.vibrate(10);
+
 		// get the camera facing the other way
 		const stream = await navigator.mediaDevices.getUserMedia({
 			video: {
-				facingMode: currentTrack.getSettings().facingMode === 'user' ? 'environment' : 'user'
+				facingMode: newFacingMode
 			}
 		});
 
@@ -94,6 +136,9 @@
 			});
 
 			videoEl.play();
+
+			// save the new facing mode
+			localStorage.setItem('cameraFacingMode', newFacingMode);
 		}
 	}
 </script>
@@ -113,6 +158,7 @@
 
 {#if videoState === 'error'}
 	<div id="error-text">
+		<!-- TODO: localize -->
 		<h1>Allow IUT Vert to access your camera</h1>
 
 		<p>
@@ -149,7 +195,8 @@
 		height: auto;
 		width: 100%;
 		overflow: hidden;
-		border-radius: 1rem;
+		border-radius: 2rem;
+		margin-bottom: 1rem;
 
 		#error-icon {
 			display: grid;
@@ -187,8 +234,8 @@
 			border: none;
 			background-color: var(--color-surface);
 			color: var(--color-on-surface);
-			padding: 1rem;
-			border-radius: 1rem;
+			padding: 1.25rem;
+			border-radius: 99px;
 			display: grid;
 			place-items: center;
 			transition: transform 0.2s;
