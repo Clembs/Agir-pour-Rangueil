@@ -7,5 +7,10 @@
 	"my_profile": "Mon profil",
 	"comments": "Commentaires",
 	"posts": "Publications",
-	"acorns": "Glands"
+	"acorns": "Points",
+	"welcome_header": "Bienvenue sur IUT Vert",
+	"welcome_description": "Un réseau social développé par des étudiant•es de l'IUT Paul Sabatier pour encourager l'action écologique.",
+	"welcome_post": "Postez des photos de vos actions écologiques",
+	"welcome_acorns": "Collectez des points et participez à la forêt virtuelle",
+	"welcome_quiz": "Participez à des quiz pour mettre vos connaissances écologiques à l'épreuve"
 }

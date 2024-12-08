@@ -7,7 +7,7 @@
 		{
 			icon: House,
 			label: m.home(),
-			href: '/'
+			href: '/home'
 		},
 		{
 			icon: Ranking,
