@@ -101,8 +101,8 @@ main {
 	margin: 0 auto;
 	max-width: 500px;
 	position: relative;
-	padding: 1.5rem;
-	padding-bottom: 5rem;
+	padding: 1rem;
+	padding-bottom: 5.5rem;
 }
 
 img,
@@ -118,7 +118,9 @@ iframe {
 }
 
 button,
-input {
+input,
+textarea,
+select {
 	font: inherit;
 	border: none;
 	outline: none;
