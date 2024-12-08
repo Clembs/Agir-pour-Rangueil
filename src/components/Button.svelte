@@ -70,11 +70,10 @@
 				0px -3px 4px rgba(255, 255, 255, 0.4),
 				0px 3px 5px #00000030;
 		}
-
-		&:disabled,
-		&[aria-disabled='true'] {
-			opacity: 0.5;
-			cursor: not-allowed;
-		}
+	}
+	button:disabled,
+	a[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 </style>
