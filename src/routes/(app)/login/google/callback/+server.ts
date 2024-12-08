@@ -34,6 +34,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		where: ({ googleId }, { eq }) => eq(googleId, tokenInfo.sub!)
 	});
 
+	const newUser = !user;
+
 	if (!user) {
 		try {
 			user = (
@@ -55,5 +57,9 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		error(500, 'Erreur lors de la création de la session.');
 	}
 
-	redirect(302, '/');
+	if (newUser) {
+		redirect(302, '/onboarding/username');
+	} else {
+		redirect(302, '/');
+	}
 }
