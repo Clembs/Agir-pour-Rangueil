@@ -145,14 +145,37 @@
 			localStorage.setItem('cameraFacingMode', newFacingMode);
 		}
 	}
+
+	function choosePicture(ev: { currentTarget?: HTMLInputElement }) {
+		if (!ev.currentTarget || !ev.currentTarget.files) return;
+
+		const file = ev.currentTarget.files[0];
+
+		// base64 encode the image
+		const reader = new FileReader();
+
+		reader.onload = () => {
+			oncapture(reader.result as string);
+		};
+
+		reader.readAsDataURL(file);
+	}
 </script>
 
 <div id="camera-wrapper" bind:this={wrapperEl}>
 	{#if videoState === 'loading'}
 		<Skeleton height="100%" width="100%" rounded={false} />
 	{:else if videoState === 'error'}
-		<div id="error-icon">
-			<CameraSlash size={64} />
+		<div id="error-text">
+			<CameraSlash size={48} />
+
+			<!-- TODO: localize -->
+			<h1>Camera access has been denied</h1>
+
+			<p>
+				You can choose a picture from your gallery, or grant camera access in your permission
+				settings.
+			</p>
 		</div>
 	{/if}
 
@@ -160,38 +183,30 @@
 	></video>
 </div>
 
-{#if videoState === 'error'}
-	<div id="error-text">
-		<!-- TODO: localize -->
-		<h1>Allow IUT Vert to access your camera</h1>
+<div id="main-actions">
+	<label for="file-input" class="action">
+		<ImagesSquare weight="fill" />
+		<input
+			onchange={choosePicture}
+			type="file"
+			name="file-input"
+			id="file-input"
+			accept="image/*"
+		/>
+	</label>
 
-		<p>
-			To post your ecological pictures, you must grant camera access. We only use it to show you a
-			preview of your pics before you post them, and to post them.
-		</p>
-	</div>
-{:else}
-	<div id="main-actions">
-		<form action="/api/post?/">
-			<label aria-disabled={videoState !== 'ready'} for="file-input" class="action">
-				<ImagesSquare weight="fill" />
-				<input disabled={videoState !== 'ready'} type="file" name="file-input" id="file-input" />
-			</label>
-		</form>
+	<button onclick={capture} disabled={videoState !== 'ready'} id="take-picture" class="action">
+		<Camera weight="fill" />
+	</button>
 
-		<button onclick={capture} disabled={videoState !== 'ready'} id="take-picture" class="action">
-			<Camera weight="fill" />
-		</button>
-
-		<button
-			onclick={switchCamera}
-			disabled={videoState !== 'ready' || videoDevices.length === 1}
-			class="action"
-		>
-			<ArrowsCounterClockwise id="arrows" weight="fill" />
-		</button>
-	</div>
-{/if}
+	<button
+		onclick={switchCamera}
+		disabled={videoState !== 'ready' || videoDevices.length === 1}
+		class="action"
+	>
+		<ArrowsCounterClockwise id="arrows" weight="fill" />
+	</button>
+</div>
 
 <style lang="scss">
 	#camera-wrapper {
@@ -202,31 +217,29 @@
 		border-radius: 2rem;
 		margin-bottom: 1rem;
 
-		#error-icon {
-			display: grid;
-			place-items: center;
+		#error-text {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			gap: 1.5rem;
+			padding: 1rem;
 			height: 100%;
 			width: 100%;
 			background-color: var(--color-surface);
 			color: var(--color-on-surface);
+
+			h1 {
+				text-align: center;
+				text-wrap: balance;
+			}
 		}
 
 		video {
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
-		}
-	}
-
-	#error-text {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		align-items: center;
-
-		h1 {
-			text-align: center;
-			text-wrap: balance;
 		}
 	}
 
@@ -244,8 +257,7 @@
 			place-items: center;
 			transition: transform 0.2s;
 
-			&:disabled,
-			&[aria-disabled='true'] {
+			&:disabled {
 				opacity: 0.5;
 				cursor: not-allowed;
 			}
@@ -271,13 +283,9 @@
 			color: var(--color-on-accent);
 		}
 
-		form {
-			display: contents;
-
-			label {
-				input {
-					display: none;
-				}
+		label {
+			input {
+				display: none;
 			}
 		}
 	}
