@@ -49,7 +49,9 @@
 		if (!videoEl || videoState === 'error' || !currentTrack || !wrapperEl) return;
 
 		// haptic feedback
-		navigator.vibrate(10);
+		if ('vibrate' in navigator) {
+			navigator.vibrate(10);
+		}
 
 		// pause the video feed to animate
 		videoEl.pause();
@@ -107,7 +109,9 @@
 		const newFacingMode = currentTrack.getSettings().facingMode === 'user' ? 'environment' : 'user';
 
 		// haptic feedback
-		navigator.vibrate(10);
+		if ('vibrate' in navigator) {
+			navigator.vibrate(10);
+		}
 
 		// get the camera facing the other way
 		const stream = await navigator.mediaDevices.getUserMedia({
