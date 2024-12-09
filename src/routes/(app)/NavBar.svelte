@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { i18n } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import { House, PlusSquare, Ranking, TreeEvergreen, UserCircle } from 'phosphor-svelte';
 
@@ -7,7 +8,7 @@
 		{
 			icon: House,
 			label: m.home(),
-			href: '/home'
+			href: '/accueil'
 		},
 		{
 			icon: Ranking,
@@ -17,7 +18,7 @@
 		{
 			icon: PlusSquare,
 			label: m.create(),
-			href: '/poster'
+			href: '/creer'
 		},
 		{
 			icon: TreeEvergreen,
@@ -35,7 +36,7 @@
 <nav>
 	<ul>
 		{#each navItems as item}
-			{@const isCurrent = $page.url.pathname === item.href}
+			{@const isCurrent = $page.url.pathname === i18n.resolveRoute(item.href)}
 			<li>
 				<a href={item.href} aria-current={isCurrent}>
 					<div class="icon">

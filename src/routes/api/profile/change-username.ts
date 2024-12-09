@@ -40,7 +40,7 @@ export async function changeUsername({ locals: { getUser }, url, request }: Requ
 	const isOnboarding = url.searchParams.get('onboarding') !== null;
 
 	if (isOnboarding) {
-		redirect(302, '/home');
+		redirect(302, '/accueil');
 	}
 
 	return { success: true };
