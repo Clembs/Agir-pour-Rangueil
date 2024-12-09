@@ -5,6 +5,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { languageTag } from '$lib/paraglide/runtime.js';
 	import Skeleton from './Skeleton.svelte';
+	import { page } from '$app/stores';
 
 	let {
 		post,
@@ -18,6 +19,40 @@
 				post?: undefined;
 				skeleton: true;
 		  } = $props();
+
+	async function share() {
+		if (!post) return;
+
+		let file: File | undefined = undefined;
+
+		try {
+			// fetch the image as a blob
+			const fileBlob = await (await fetch(post.imageUrl)).blob();
+
+			// the file name doesn't really matter
+			file = new File([fileBlob], 'file.webp', {
+				type: fileBlob.type
+			});
+		} catch (error) {
+			console.error(error);
+		}
+
+		const postAbsoluteUrl = `${$page.url.origin}/posts/${post.id}`;
+
+		const shareData: ShareData = {
+			title: post.content,
+			text: post.content,
+			url: postAbsoluteUrl,
+			files: file ? [file] : []
+		};
+
+		// share rich content if possible, otherwise fallback to text
+		if (navigator.share && navigator.canShare(shareData)) {
+			navigator.share(shareData);
+		} else {
+			navigator.clipboard.writeText(postAbsoluteUrl);
+		}
+	}
 </script>
 
 <article>
@@ -59,7 +94,7 @@
 				<button>
 					<ChatCircle size={32} />
 				</button>
-				<button>
+				<button onclick={share}>
 					<ShareFat size={32} />
 				</button>
 			</div>
