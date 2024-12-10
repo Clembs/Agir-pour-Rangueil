@@ -3,6 +3,8 @@
 	import TextInput from '$components/TextInput.svelte';
 	import { CaretLeft, PaperPlaneRight } from 'phosphor-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 
 	let {
 		imageBase64,
@@ -11,12 +13,28 @@
 		imageBase64: string;
 		oncancel: () => void;
 	} = $props();
+
+	let postingState = $state<'initial' | 'loading' | 'error' | 'success'>('initial');
 </script>
 
-<!-- TODO: form action -->
-<form action="" method="post">
+<form
+	use:enhance={() => {
+		postingState = 'loading';
+		return async ({ result, update }) => {
+			if (result.type === 'success') {
+				postingState = 'success';
+			} else if (result.type === 'failure') {
+				postingState = 'error';
+			}
+			await update();
+		};
+	}}
+	action="/api/posts?/createPost"
+	method="post"
+>
+	{$page.form?.message}
 	<div id="preview-image">
-		<input type="hidden" name="image" value={imageBase64} />
+		<input type="hidden" name="image-base64" value={imageBase64} />
 		<img src={imageBase64} alt="Camera preview" />
 	</div>
 
@@ -35,9 +53,13 @@
 				{m.back()}
 			</Button>
 
-			<Button>
+			<Button disabled={postingState === 'loading'}>
 				<PaperPlaneRight size={20} />
-				{m.create()}
+				{#if postingState === 'loading'}
+					{m.uploading()}
+				{:else}
+					{m.create()}
+				{/if}
 			</Button>
 		</div>
 	</div>

@@ -27,6 +27,7 @@
 
 		try {
 			// fetch the image as a blob
+			// TODO: woops broke this
 			const fileBlob = await (await fetch(post.imageUrl)).blob();
 
 			// the file name doesn't really matter
