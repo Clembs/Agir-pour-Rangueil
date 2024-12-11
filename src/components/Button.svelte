@@ -13,12 +13,16 @@
 		variant?: 'leaf' | 'colored';
 		color?: string;
 		children: Snippet;
-		onclick?: () => void;
+		onclick?: (
+			ev: Event & {
+				currentTarget: HTMLButtonElement | HTMLAnchorElement;
+			}
+		) => void;
 		disabled?: boolean;
 	} = $props();
 </script>
 
-{#if href && !onclick}
+{#if href}
 	<a
 		class={variant}
 		style:--color={color}
@@ -27,6 +31,7 @@
 		rel={!href.startsWith('/') ? 'noopener noreferrer' : ''}
 		draggable="false"
 		aria-disabled={disabled}
+		{onclick}
 	>
 		{@render children()}
 	</a>

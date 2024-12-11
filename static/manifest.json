@@ -40,7 +40,7 @@
 	"background_color": "#dacdbe",
 	"display": "standalone",
 	"scope": "/",
-	"theme_color": "#0f6100",
+	"theme_color": "#dacdbe",
 	"description": "Partagez vos actions écologiques",
 	"orientation": "portrait"
 }
