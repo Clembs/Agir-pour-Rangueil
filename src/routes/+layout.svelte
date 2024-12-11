@@ -7,6 +7,15 @@
 	let { children } = $props();
 </script>
 
+<svelte:window
+	oncontextmenu={(ev) => {
+		if (matchMedia('(display-mode: standalone)').matches) {
+			ev.preventDefault();
+			return;
+		}
+	}}
+/>
+
 <ParaglideJS {i18n}>
 	<IconContext
 		values={{
