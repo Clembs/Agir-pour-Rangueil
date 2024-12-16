@@ -4,14 +4,17 @@
 	let {
 		href,
 		variant = 'leaf',
-		color,
+		'background-color': backgroundColor,
+		'text-color': textColor,
 		children,
 		onclick,
-		disabled
+		disabled,
+		type
 	}: {
 		href?: string;
 		variant?: 'leaf' | 'colored';
-		color?: string;
+		'background-color'?: string;
+		'text-color'?: string;
 		children: Snippet;
 		onclick?: (
 			ev: Event & {
@@ -19,13 +22,15 @@
 			}
 		) => void;
 		disabled?: boolean;
+		type?: 'button' | 'submit' | 'reset';
 	} = $props();
 </script>
 
 {#if href}
 	<a
 		class={variant}
-		style:--color={color}
+		style:--color-background={backgroundColor}
+		style:--color-on-background={textColor}
 		{href}
 		target={!href.startsWith('/') ? '_blank' : ''}
 		rel={!href.startsWith('/') ? 'noopener noreferrer' : ''}
@@ -36,7 +41,14 @@
 		{@render children()}
 	</a>
 {:else}
-	<button {onclick} class={variant} style:--color={color} {disabled}>
+	<button
+		{onclick}
+		class={variant}
+		style:--color-background={backgroundColor}
+		style:--color-on-background={textColor}
+		{disabled}
+		{type}
+	>
 		{@render children()}
 	</button>
 {/if}
@@ -49,31 +61,28 @@
 		gap: 1rem;
 		justify-content: center;
 		align-items: center;
-		padding: 0.75rem 1rem;
+		padding: 1rem 1.25rem;
 		background-color: black;
 		color: white;
 		text-align: center;
 		cursor: initial;
-		border-radius: 1rem;
+		border-radius: 99px;
+		font-weight: 500;
+		transition: transform 0.2s;
 
 		&.leaf {
-			background-image: url('/assets/leaf.png');
-			background-position: bottom right;
-			text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
-			font-weight: 500;
-			box-shadow:
-				inset 0px 3px 4px rgba(255, 255, 255, 0.4),
-				inset 0px -3px 4px rgba(0, 0, 0, 0.4),
-				0px 3px 5px #55870430;
+			background-color: var(--color-accent);
+			color: var(--color-on-accent);
 		}
 
 		&.colored {
-			background-color: var(--color);
-			color: white;
-			box-shadow:
-				0px 3px 4px rgba(0, 0, 0, 0.4),
-				0px -3px 4px rgba(255, 255, 255, 0.4),
-				0px 3px 5px #00000030;
+			--bg: var(--color-background, hsl(0, 0%, 100%));
+			background-color: var(--bg);
+			color: var(--color-on-background, hsl(0, 0%, 0%));
+		}
+
+		&:hover:active {
+			transform: scale(0.95);
 		}
 	}
 	button:disabled,

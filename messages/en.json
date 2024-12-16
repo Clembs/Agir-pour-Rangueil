@@ -8,6 +8,9 @@
 	"comments": "Comments",
 	"posts": "Posts",
 	"acorns": "Acorns",
+	"camera": "Camera",
+	"back": "Back",
+	"create_content_label": "Post content",
 	"button_continue": "Continue",
 	"welcome_header": "Welcome to IUT Vert",
 	"welcome_description": "A social media app developed by students from IUT Paul Sabatier, made to promote ecological actions.",
@@ -20,5 +23,6 @@
 	"change_username_description": "This username will be visible to other users. It must be between 3 and 20 characters.",
 	"username": "Username",
 	"change_username_error_taken": "This username is already taken",
-	"change_username_error_length": "Username must be between 3 and 20 characters"
+	"change_username_error_length": "Username must be between 3 and 20 characters",
+	"uploading": "Uplooading..."
 }
