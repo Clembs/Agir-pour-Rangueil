@@ -17,6 +17,8 @@
 	"welcome_post": "Postez des photos de vos actions écologiques",
 	"welcome_acorns": "Collectez des points et participez à la forêt virtuelle",
 	"welcome_quiz": "Participez à des quiz pour mettre vos connaissances écologiques à l'épreuve",
+	"login_with_google": "Se connecter avec Google",
+	"login_with_apple": "Se connecter avec Apple",
 	"choose_username_header": "Choisissez un nom d'utilisateur",
 	"change_username_description": "Ce nom sera visible par les autres utilisateurs. Il doit être entre 3 et 20 caractères.",
 	"username": "Nom d'utilisateur",
