@@ -51,14 +51,18 @@
 
 <style lang="scss">
 	nav {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
 		width: 100%;
+		-webkit-backdrop-filter: blur(30px);
 		backdrop-filter: blur(30px);
 		background-color: rgba(255, 255, 255, 0.5);
 		z-index: 1000;
+		padding-bottom: 0;
+		padding-bottom: env(safe-area-inset-bottom, 0);
+		flex-shrink: 0;
+		position: sticky;
+		bottom: 0;
+		left: 0;
+		height: var(--navbar-height);
 
 		ul {
 			display: flex;

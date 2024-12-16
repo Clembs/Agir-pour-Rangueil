@@ -16,13 +16,17 @@
 		'background-color'?: string;
 		'text-color'?: string;
 		children: Snippet;
-		onclick?: () => void;
+		onclick?: (
+			ev: Event & {
+				currentTarget: HTMLButtonElement | HTMLAnchorElement;
+			}
+		) => void;
 		disabled?: boolean;
 		type?: 'button' | 'submit' | 'reset';
 	} = $props();
 </script>
 
-{#if href && !onclick}
+{#if href}
 	<a
 		class={variant}
 		style:--color-background={backgroundColor}
@@ -32,6 +36,7 @@
 		rel={!href.startsWith('/') ? 'noopener noreferrer' : ''}
 		draggable="false"
 		aria-disabled={disabled}
+		{onclick}
 	>
 		{@render children()}
 	</a>

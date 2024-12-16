@@ -37,6 +37,7 @@
 	--color-on-surface-dim: #000000;
 	--color-accent: hsl(111, 100%, 19%);
 	--color-on-accent: hsl(111, 100%, 90%);
+	--navbar-height: calc(70px + env(safe-area-inset-bottom, 0));
 }
 
 *,
@@ -45,6 +46,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	-webkit-user-select: none;
 	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
@@ -72,7 +74,7 @@ html {
 body {
 	font-family: 'OpenRunde', sans-serif;
 	background-color: var(--color-surface); // fallback color until the bg image is loaded
-	background-image: url('/background-pattern.jpg');
+	// background-image: url('/background-pattern.jpg');
 	background-position: center;
 	background-attachment: fixed;
 	background-size: cover;
@@ -82,6 +84,7 @@ body {
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-size-adjust: 100%;
+	overflow-x: hidden;
 }
 
 html,
@@ -102,7 +105,14 @@ main {
 	max-width: 500px;
 	position: relative;
 	padding: 1rem;
-	padding-bottom: 5.5rem;
+	flex: 1;
+	min-height: 100vh;
+	min-height: 100dvh;
+	min-height: calc(100dvh - var(--navbar-height));
+	// padding-bottom: var(--navbar-height);
+	// height: 100%;
+	// width: 100%;
+	// overflow-x: scroll;
 }
 
 img,

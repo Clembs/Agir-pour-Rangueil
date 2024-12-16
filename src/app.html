@@ -3,8 +3,18 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+		<meta
+			name="viewport"
+			content="width=device-width, viewport-fit=cover, initial-scale=1, user-scalable=0"
+		/>
 		<link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
+		<link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/icon-72.png" />
+		<link rel="apple-touch-icon" sizes="128x128" href="/assets/icons/icon-128.png" />
+		<link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/icon-192.png" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

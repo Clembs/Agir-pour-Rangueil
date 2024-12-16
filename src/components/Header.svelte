@@ -36,7 +36,9 @@
 		left: 0;
 		z-index: 1000;
 		max-width: 500px;
+		width: 100%;
 		margin: 0 auto;
+		-webkit-backdrop-filter: blur(var(--blur));
 		backdrop-filter: blur(var(--blur));
 
 		&.compact {
