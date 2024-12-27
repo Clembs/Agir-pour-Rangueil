@@ -24,5 +24,6 @@
 	"username": "Username",
 	"change_username_error_taken": "This username is already taken",
 	"change_username_error_length": "Username must be between 3 and 20 characters",
-	"uploading": "Uplooading..."
+	"uploading": "Uplooading...",
+	"myself": "Myself"
 }
