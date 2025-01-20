@@ -11,28 +11,26 @@ export const handle: Handle = async (input) => {
 
 	const sessionId = event.cookies.get('session_id');
 
-	event.locals.getSession = async () => (sessionId ? await refreshSession(event, sessionId) : null);
+	const session = sessionId ? await refreshSession(event, sessionId) : null;
 
-	event.locals.getUser = async (id?: number) => {
-		if (!id) {
-			if (!sessionId) {
-				return null;
-			}
+	event.locals.getSession = () => session;
 
-			const session = await db.query.session.findFirst({
-				where: ({ id }, { eq }) => eq(id, sessionId),
-				with: { user: true }
+	const currentUser = !session
+		? null
+		: await db.query.user.findFirst({
+				where: ({ id: userId }, { eq }) => eq(userId, session.userId!),
+				with: {
+					likes: true,
+					posts: {
+						with: {
+							likes: true,
+							author: true
+						}
+					}
+				}
 			});
 
-			return session?.user;
-		}
+	event.locals.getUser = () => currentUser;
 
-		const user = await db.query.user.findFirst({
-			where: ({ id: userId }, { eq }) => eq(userId, id)
-		});
-
-		return user;
-	};
-
-	return resolve(event);
+	return await resolve(event);
 };
