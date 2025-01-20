@@ -1,4 +1,4 @@
-import { googleAuthClient } from '$lib/server/oauth';
+import { getGoogleAuthClient } from '$lib/server/oauth';
 
 import { error, redirect, type RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
@@ -12,7 +12,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	let tokens: Credentials;
 	try {
-		tokens = (await googleAuthClient.getToken(code)).tokens;
+		tokens = (await getGoogleAuthClient(event.url.origin).getToken(code)).tokens;
 	} catch (e) {
 		console.error(e);
 		error(400, "Erreur lors de la validation du code d'autorisation. Veuillez réessayer.");
@@ -20,7 +20,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	let tokenInfo: TokenInfo;
 	try {
-		tokenInfo = await googleAuthClient.getTokenInfo(tokens.access_token!);
+		tokenInfo = await getGoogleAuthClient(event.url.origin).getTokenInfo(tokens.access_token!);
 	} catch (e) {
 		console.error(e);
 		error(500, "Erreur lors de la validation du jeton d'accès. Veuillez réessayer.");

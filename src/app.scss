@@ -128,7 +128,9 @@ iframe {
 }
 
 button,
-input {
+input,
+textarea,
+select {
 	font: inherit;
 	border: none;
 	outline: none;

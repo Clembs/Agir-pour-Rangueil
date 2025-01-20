@@ -18,7 +18,7 @@
 		</li>
 	</ul>
 
-	<Button variant="colored" color="blue" href="/login/google">
+	<Button variant="colored" background-color="blue" text-color="white" href="/login/google">
 		<GoogleLogo weight="bold" />
 		{m.login_with_google()}
 	</Button>
