@@ -1,21 +1,23 @@
 import { db } from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 
-export async function load({ parent, locals: { getUser }, params }) {
+export async function load({ parent, params }) {
 	const { user: currentUser } = await parent();
-	const id = parseInt(params.id);
+	const userId = parseInt(params.id);
 
-	if ((!params.id || isNaN(id)) && !currentUser) {
+	if ((!params.id || isNaN(userId)) && !currentUser) {
 		error(404, 'Utilisateur invalide/Invalid user');
 	}
 
-	const user = !params.id ? currentUser : await getUser(id);
+	const user = !params.id
+		? currentUser
+		: await db.query.users.findFirst({ where: ({ id }, { eq }) => eq(id, userId) });
 
 	if (!user) {
 		error(404, 'Utilisateur introuvable/User not found');
 	}
 
-	const posts = db.query.post.findMany({
+	const posts = db.query.posts.findMany({
 		where: ({ authorId }, { eq }) => eq(authorId, user.id),
 		orderBy: ({ createdAt }, { desc }) => desc(createdAt),
 		with: { author: true, likes: true },

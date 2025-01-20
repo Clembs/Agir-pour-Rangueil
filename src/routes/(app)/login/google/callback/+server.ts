@@ -2,7 +2,7 @@ import { getGoogleAuthClient } from '$lib/server/oauth';
 
 import { error, redirect, type RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { user as userTable } from '$lib/server/db/schema';
+import { users as userTable } from '$lib/server/db/schema';
 import type { User } from '$lib/server/db/types';
 import type { Credentials, TokenInfo } from 'google-auth-library';
 import { createSession } from '$lib/server/session';
@@ -30,7 +30,7 @@ export async function GET(event: RequestEvent) {
 		error(500, "Erreur lors de la validation du jeton d'accès. Veuillez réessayer.");
 	}
 
-	let user: Pick<User, 'id'> | undefined = await db.query.user.findFirst({
+	let user: Pick<User, 'id'> | undefined = await db.query.users.findFirst({
 		where: ({ googleId }, { eq }) => eq(googleId, tokenInfo.sub!)
 	});
 
@@ -42,7 +42,7 @@ export async function GET(event: RequestEvent) {
 				await db
 					.insert(userTable)
 					.values({ googleId: tokenInfo.sub!, username: tokenInfo.sub! })
-					.$returningId()
+					.returning()
 			)[0];
 		} catch (e) {
 			console.error(e);

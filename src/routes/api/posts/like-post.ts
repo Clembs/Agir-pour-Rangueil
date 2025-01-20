@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { db } from '$lib/server/db';
-import { like } from '$lib/server/db/schema';
+import { likes } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 
 export async function likePost({ locals: { getUser }, url }: RequestEvent) {
@@ -17,7 +17,7 @@ export async function likePost({ locals: { getUser }, url }: RequestEvent) {
 		return fail(400, { message: 'Missing or invalid postId' });
 	}
 
-	const post = await db.query.post.findFirst({
+	const post = await db.query.posts.findFirst({
 		where: ({ id }, { eq }) => eq(id, postId),
 		with: {
 			likes: true
@@ -30,11 +30,11 @@ export async function likePost({ locals: { getUser }, url }: RequestEvent) {
 
 	// If the user has liked, remove the like
 	if (post?.likes.find(({ userId }) => userId === currentUser.id)) {
-		await db.delete(like).where(and(eq(like.userId, currentUser.id), eq(like.postId, postId)));
+		await db.delete(likes).where(and(eq(likes.userId, currentUser.id), eq(likes.postId, postId)));
 	}
 	// If the user has not liked, add the like
 	else {
-		await db.insert(like).values({ userId: currentUser.id, postId });
+		await db.insert(likes).values({ userId: currentUser.id, postId });
 	}
 
 	return { success: true };

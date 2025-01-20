@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { BACKBLAZE_APPLICATION_ID, BACKBLAZE_APPLICATION_KEY } from '$env/static/private';
 import { db } from '$lib/server/db';
-import { post, user } from '$lib/server/db/schema';
+import { posts, users } from '$lib/server/db/schema';
 
 export async function createPost({ locals: { getUser }, request, fetch }: RequestEvent) {
 	const currentUser = await getUser();
@@ -111,16 +111,16 @@ export async function createPost({ locals: { getUser }, request, fetch }: Reques
 	console.log(await req.json());
 
 	const [{ id }] = await db
-		.insert(post)
+		.insert(posts)
 		.values({
 			authorId: currentUser.id,
 			imageUrl: `${downloadUrl}/file/${bucketName}/${fileName}`,
 			content
 		})
-		.$returningId();
+		.returning();
 
 	// Add acorns to user
-	await db.update(user).set({
+	await db.update(users).set({
 		acorns: currentUser.acorns + 500
 	});
 

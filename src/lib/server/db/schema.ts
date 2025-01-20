@@ -1,91 +1,92 @@
 import { relations } from 'drizzle-orm';
-import { mysqlTable, int, varchar, text, primaryKey, timestamp } from 'drizzle-orm/mysql-core';
+import { pgTable, serial, varchar, integer, text, timestamp } from 'drizzle-orm/pg-core';
 
-export const user = mysqlTable('user', {
-	id: int('id').autoincrement().primaryKey(),
-	googleId: varchar('google_id', { length: 255 }).unique().notNull(),
-	username: varchar('username', { length: 32 }).unique().notNull(),
-	acorns: int('acorns').notNull().default(0)
+export const users = pgTable('users', {
+	id: serial().primaryKey(),
+	googleId: varchar({ length: 255 }).unique().notNull(),
+	username: varchar({ length: 32 }).unique().notNull(),
+	acorns: integer().notNull().default(0)
 });
 
-export const userRelations = relations(user, ({ many }) => ({
-	likes: many(like),
-	posts: many(post)
+export const usersRelations = relations(users, ({ many }) => ({
+	likes: many(likes),
+	posts: many(posts)
 }));
 
-export const session = mysqlTable('session', {
-	id: varchar('id', { length: 32 }).primaryKey(),
-	userId: int('userId').references(() => user.id),
-	expiresAt: timestamp('expiresAt').notNull()
+export const sessions = pgTable('sessions', {
+	id: varchar({ length: 32 }).primaryKey(),
+	userId: integer()
+		.notNull()
+		.references(() => users.id),
+	expiresAt: timestamp().notNull()
 });
 
-export const sessionRelations = relations(session, ({ one }) => ({
-	user: one(user, {
-		fields: [session.userId],
-		references: [user.id]
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+	user: one(users, {
+		fields: [sessions.userId],
+		references: [users.id]
 	})
 }));
 
-export const post = mysqlTable('post', {
-	id: int('id').autoincrement().primaryKey(),
-	authorId: int('author_id')
+export const posts = pgTable('posts', {
+	id: serial().primaryKey(),
+	authorId: integer()
 		.notNull()
-		.references(() => user.id),
-	content: varchar('content', { length: 260 }).notNull(),
-	imageUrl: text('image_url').notNull(),
-	createdAt: timestamp('created_at').notNull().defaultNow()
+		.references(() => users.id),
+	content: varchar({ length: 260 }).notNull(),
+	imageUrl: text().notNull(),
+	createdAt: timestamp().notNull().defaultNow()
 });
 
-export const postRelations = relations(post, ({ one, many }) => ({
-	author: one(user, {
-		fields: [post.authorId],
-		references: [user.id]
+export const postsRelations = relations(posts, ({ one, many }) => ({
+	author: one(users, {
+		fields: [posts.authorId],
+		references: [users.id]
 	}),
-	likes: many(like),
-	comments: many(comment)
+	likes: many(likes),
+	comments: many(comments)
 }));
 
-export const like = mysqlTable(
-	'like',
-	{
-		userId: int('userId'),
-		postId: int('postId')
-	},
-	({ userId, postId }) => ({
-		id: primaryKey({ columns: [userId, postId] })
-	})
-);
-
-export const likeRelations = relations(like, ({ one }) => ({
-	post: one(post, {
-		fields: [like.postId],
-		references: [post.id]
-	}),
-	user: one(user, {
-		fields: [like.userId],
-		references: [user.id]
-	})
-}));
-
-export const comment = mysqlTable('comment', {
-	id: int('id').autoincrement().primaryKey(),
-	authorId: int('author_id')
+export const likes = pgTable('likes', {
+	id: serial().primaryKey(),
+	userId: integer()
 		.notNull()
-		.references(() => user.id),
-	postId: int('post_id')
+		.references(() => users.id),
+	postId: integer()
 		.notNull()
-		.references(() => post.id),
-	content: varchar('content', { length: 260 }).notNull(),
-	createdAt: timestamp('created_at').notNull().defaultNow()
+		.references(() => posts.id)
 });
 
-export const commentRelations = relations(comment, ({ one }) => ({
-	post: one(post, {
-		fields: [comment.postId],
-		references: [post.id]
+export const likesRelations = relations(likes, ({ one }) => ({
+	post: one(posts, {
+		fields: [likes.postId],
+		references: [posts.id]
 	}),
-	author: one(user, {
-		fields: [comment.authorId],
-		references: [user.id]
+	user: one(users, {
+		fields: [likes.userId],
+		references: [users.id]
+	})
+}));
+
+export const comments = pgTable('comments', {
+	id: integer().primaryKey(),
+	authorId: integer()
+		.notNull()
+		.references(() => users.id),
+	postId: integer()
+		.notNull()
+		.references(() => posts.id),
+	content: varchar({ length: 260 }).notNull(),
+	createdAt: timestamp().notNull().defaultNow()
+});
+
+export const commentsRelations = relations(comments, ({ one }) => ({
+	post: one(posts, {
+		fields: [comments.postId],
+		references: [posts.id]
+	}),
+	author: one(users, {
+		fields: [comments.authorId],
+		references: [users.id]
 	})
 }));

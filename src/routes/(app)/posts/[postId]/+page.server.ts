@@ -8,7 +8,7 @@ export async function load({ params }) {
 
 	const postId = parseInt(params.postId);
 
-	const post = await db.query.post.findFirst({
+	const post = await db.query.posts.findFirst({
 		where: ({ id }, { eq }) => eq(id, postId),
 		with: {
 			likes: true,

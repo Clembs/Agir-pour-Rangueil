@@ -10,7 +10,7 @@ export const handle: Handle = async (input) => {
 
 	const currentUser = !session
 		? null
-		: await db.query.user.findFirst({
+		: await db.query.users.findFirst({
 				where: ({ id: userId }, { eq }) => eq(userId, session.userId!),
 				with: {
 					likes: true,

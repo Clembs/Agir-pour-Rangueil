@@ -1,12 +1,12 @@
-import type { like, post, session, user } from './schema';
+import type { likes, posts, sessions, users } from './schema';
 
-export type User = typeof user.$inferSelect;
+export type User = typeof users.$inferSelect;
 
-export type Session = typeof session.$inferSelect;
+export type Session = typeof sessions.$inferSelect;
 
-export type Post = typeof post.$inferSelect & {
+export type Post = typeof posts.$inferSelect & {
 	author: User;
 	likes: Like[];
 };
 
-export type Like = typeof like.$inferSelect;
+export type Like = typeof likes.$inferSelect;

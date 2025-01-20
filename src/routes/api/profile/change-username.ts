@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { db } from '$lib/server/db';
-import { user } from '$lib/server/db/schema';
+import { users } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function changeUsername({ locals: { getUser }, url, request }: RequestEvent) {
@@ -23,7 +23,7 @@ export async function changeUsername({ locals: { getUser }, url, request }: Requ
 	}
 
 	// Check if username is already taken
-	const userExists = await db.query.user.findFirst({
+	const userExists = await db.query.users.findFirst({
 		where: ({ username: dbUsername }, { eq }) => eq(dbUsername, newUsername)
 	});
 
@@ -34,11 +34,11 @@ export async function changeUsername({ locals: { getUser }, url, request }: Requ
 	}
 
 	await db
-		.update(user)
+		.update(users)
 		.set({
 			username: newUsername
 		})
-		.where(eq(user.id, currentUser.id));
+		.where(eq(users.id, currentUser.id));
 
 	const isOnboarding = url.searchParams.get('onboarding') !== null;
 
