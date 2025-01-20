@@ -31,7 +31,5 @@
 		flex-direction: column;
 		justify-content: flex-end;
 		gap: 0.5rem;
-		min-height: 100vh;
-		min-height: 100dvh;
 	}
 </style>
