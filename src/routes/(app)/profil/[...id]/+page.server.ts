@@ -1,12 +1,12 @@
 import { db } from '$lib/server/db';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export async function load({ parent, params }) {
 	const { user: currentUser } = await parent();
 	const userId = parseInt(params.id);
 
 	if ((!params.id || isNaN(userId)) && !currentUser) {
-		error(404, 'Utilisateur invalide/Invalid user');
+		redirect(302, '/');
 	}
 
 	const user = !params.id
