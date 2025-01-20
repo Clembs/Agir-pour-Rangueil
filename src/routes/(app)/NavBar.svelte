@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { i18n } from '$lib/i18n';
+	import { page } from '$app/state';
 	import { House, PlusSquare, UserCircle } from 'phosphor-svelte';
 
 	const navItems = [
@@ -35,7 +34,7 @@
 <nav>
 	<ul>
 		{#each navItems as item}
-			{@const isCurrent = $page.url.pathname === i18n.resolveRoute(item.href)}
+			{@const isCurrent = page.url.pathname === item.href}
 			<li>
 				<a href={item.href} aria-current={isCurrent}>
 					<div class="icon">
