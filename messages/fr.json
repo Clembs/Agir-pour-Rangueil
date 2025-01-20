@@ -12,11 +12,14 @@
 	"welcome_header": "Bienvenue sur IUT Vert",
 	"welcome_description": "Un réseau social développé par des étudiant•es de l'IUT Paul Sabatier pour encourager l'action écologique.",
 	"welcome_post": "Postez des photos de vos actions écologiques",
-	"welcome_acorns": "Collectez des points et participez à la forêt virtuelle",
-	"welcome_quiz": "Participez à des quiz pour mettre vos connaissances écologiques à l'épreuve",
+	"welcome_acorns": "Collectez des points et participez à la forêt virtuelle (À venir)",
+	"welcome_quiz": "Participez à des quiz pour mettre vos connaissances écologiques à l'épreuve (À venir)",
+	"login_with_google": "Se connecter avec Google",
 	"choose_username_header": "Choisissez un nom d'utilisateur",
 	"change_username_description": "Ce nom sera visible par les autres utilisateurs. Il doit être entre 3 et 20 caractères.",
 	"username": "Nom d'utilisateur",
 	"change_username_error_taken": "Ce nom d'utilisateur est déjà pris.",
-	"change_username_error_length": "Le nom d'utilisateur doit être entre 3 et 20 caractères."
+	"change_username_error_length": "Le nom d'utilisateur doit être entre 3 et 20 caractères.",
+	"uploading": "Post en cours...",
+	"comment_placeholder": "Ajouter un commentaire..."
 }

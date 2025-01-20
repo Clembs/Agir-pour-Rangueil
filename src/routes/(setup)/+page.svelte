@@ -20,11 +20,7 @@
 
 	<Button variant="colored" color="blue" href="/login/google">
 		<GoogleLogo weight="bold" />
-		Se connecter avec Google
-	</Button>
-	<Button disabled variant="colored" color="black" onclick={() => console.log('h')}>
-		<AppleLogo weight="fill" />
-		Se connecter avec Apple
+		{m.login_with_google()}
 	</Button>
 </main>
 
