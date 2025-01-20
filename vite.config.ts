@@ -10,6 +10,9 @@ export default defineConfig({
 			outdir: './src/lib/paraglide'
 		})
 	],
+	server: {
+		allowedHosts: ['agir-pour-rangueil.clembs.com']
+	},
 	optimizeDeps: {
 		exclude: ['phosphor-svelte']
 	}
