@@ -2,21 +2,14 @@
 	import { enhance } from '$app/forms';
 	import Skeleton from '$components/Skeleton.svelte';
 	import { formatRelativeTime } from '$lib/format';
-	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
+	import { Heart, ShareFat } from 'phosphor-svelte';
 	// import TextInput from '$components/TextInput.svelte';
 	import { share } from '$components/Post.svelte';
 
 	let { data } = $props();
 
-	let hasLiked = $state(data.user?.likes?.find((l) => l.postId === data.post?.id));
-	let likes = $state(data.post?.likes.length);
-
-	$effect(() => {
-		if (!data.post || !data.user) return;
-
-		hasLiked = data.user.likes.find((l) => l.postId === data.post.id);
-		likes = data.post.likes.length;
-	});
+	let hasLiked = $derived(data.user?.likes?.find((l) => l.postId === data.post?.id));
+	let likes = $derived(data.post?.likes.length);
 </script>
 
 <main>
@@ -46,13 +39,7 @@
 	<div class="buttons">
 		<div class="primary-actions">
 			<form use:enhance action="/api/posts?/likePost&postId={data.post.id}" method="post">
-				<button
-					type="submit"
-					onmousedown={() => {
-						hasLiked = !hasLiked;
-						likes += hasLiked ? 1 : -1;
-					}}
-				>
+				<button>
 					{#if hasLiked}
 						<Heart weight="fill" color="var(--color-accent)" size={32} />
 					{:else}

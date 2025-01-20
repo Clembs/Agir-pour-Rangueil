@@ -38,7 +38,7 @@
 <script lang="ts">
 	import { formatRelativeTime } from '$lib/format';
 	import type { Post } from '$lib/server/db/types';
-	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
+	import { Heart, ShareFat } from 'phosphor-svelte';
 	import Skeleton from './Skeleton.svelte';
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
@@ -56,13 +56,7 @@
 				skeleton: true;
 		  } = $props();
 
-	let hasLiked = $state(page.data.user?.likes?.find((l) => l.postId === post?.id));
-
-	$effect(() => {
-		if (!post || !page.data.user) return;
-
-		hasLiked = page.data.user.likes.find((l) => l.postId === post.id);
-	});
+	let hasLiked = $derived(page.data.user?.likes?.find((l) => l.postId === post?.id));
 </script>
 
 <article>
@@ -95,11 +89,10 @@
 			<p>{post.content}</p>
 		</div>
 
-		<!-- TODO: make these look nicer and functional -->
 		<div class="buttons">
 			<div class="primary-actions">
 				<form use:enhance action="/api/posts?/likePost&postId={post.id}" method="post">
-					<button onmousedown={() => (hasLiked = !hasLiked)}>
+					<button>
 						{#if hasLiked}
 							<Heart weight="fill" color="var(--color-accent)" size={32} />
 						{:else}
