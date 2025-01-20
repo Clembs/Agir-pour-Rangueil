@@ -107,15 +107,15 @@
 						{/if}
 					</button>
 				</form>
-				<button>
+				<!-- <button>
 					<ChatCircle size={32} />
-				</button>
+				</button> -->
 				<button onclick={() => share(post)}>
 					<ShareFat size={32} />
 				</button>
 			</div>
 
-			<a class="view-comments-button" href="/posts/{post.id}"> Commentaires </a>
+			<a class="view-comments-button" href="/posts/{post.id}"> Ouvrir post </a>
 		</div>
 	{/if}
 </article>

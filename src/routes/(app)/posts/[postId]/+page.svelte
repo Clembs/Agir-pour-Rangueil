@@ -62,11 +62,11 @@
 			</form>
 			{likes}
 
-			<button>
+			<!-- <button>
 				<ChatCircle size={32} />
 			</button>
 
-			{data.post.comments.length}
+			{data.post.comments.length} -->
 
 			<button onclick={() => share(data.post)}>
 				<ShareFat size={32} />
