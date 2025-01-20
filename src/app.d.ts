@@ -5,7 +5,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			getSession: () => Session | null;
-			getUser: (id?: number) =>
+			getUser: () =>
 				| (User & {
 						posts: Post[];
 						likes: Like[];

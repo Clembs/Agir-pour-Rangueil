@@ -4,16 +4,10 @@ import { refreshSession } from '$lib/server/session';
 import { db } from '$lib/server/db';
 
 export const handle: Handle = async (input) => {
-	const handleParaglide: Handle = i18n.handle();
-	handleParaglide(input);
-
 	const { event, resolve } = input;
 
 	const sessionId = event.cookies.get('session_id');
-
 	const session = sessionId ? await refreshSession(event, sessionId) : null;
-
-	event.locals.getSession = () => session;
 
 	const currentUser = !session
 		? null
@@ -30,7 +24,11 @@ export const handle: Handle = async (input) => {
 				}
 			});
 
+	event.locals.getSession = () => session;
 	event.locals.getUser = () => currentUser;
+
+	const handleParaglide: Handle = i18n.handle();
+	handleParaglide(input);
 
 	return await resolve(event);
 };
