@@ -51,15 +51,14 @@ export async function GET(event: RequestEvent) {
 	}
 
 	try {
-		await createSession(event, user.id).then(() => {
-			if (newUser) {
-				redirect(302, '/onboarding/username');
-			} else {
-				redirect(302, '/');
-			}
-		});
+		await createSession(event, user.id);
 	} catch (e) {
 		console.error(e);
+	}
+
+	if (newUser) {
+		redirect(302, '/onboarding/username');
+	} else {
 		redirect(302, '/');
 	}
 }
