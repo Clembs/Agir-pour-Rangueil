@@ -41,7 +41,8 @@ export const postRelations = relations(post, ({ one, many }) => ({
 		fields: [post.authorId],
 		references: [user.id]
 	}),
-	likes: many(like)
+	likes: many(like),
+	comments: many(comment)
 }));
 
 export const like = mysqlTable(
@@ -62,6 +63,29 @@ export const likeRelations = relations(like, ({ one }) => ({
 	}),
 	user: one(user, {
 		fields: [like.userId],
+		references: [user.id]
+	})
+}));
+
+export const comment = mysqlTable('comment', {
+	id: int('id').autoincrement().primaryKey(),
+	authorId: int('author_id')
+		.notNull()
+		.references(() => user.id),
+	postId: int('post_id')
+		.notNull()
+		.references(() => post.id),
+	content: varchar('content', { length: 260 }).notNull(),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
+export const commentRelations = relations(comment, ({ one }) => ({
+	post: one(post, {
+		fields: [comment.postId],
+		references: [post.id]
+	}),
+	author: one(user, {
+		fields: [comment.authorId],
 		references: [user.id]
 	})
 }));
