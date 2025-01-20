@@ -31,11 +31,11 @@
 }
 
 :root {
-	--color-surface: hsl(33, 28%, 80%);
+	--color-surface: hsl(33, 28%, 85%);
 	--color-on-surface: #000000;
-	--color-surface-dim: hsl(33, 28%, 70%);
+	--color-surface-dim: hsl(33, 28%, 75%);
 	--color-on-surface-dim: #000000;
-	--color-accent: hsl(111, 100%, 19%);
+	--color-accent: hsl(134, 62%, 35%);
 	--color-on-accent: hsl(111, 100%, 90%);
 	--navbar-height: calc(70px + env(safe-area-inset-bottom, 0));
 }
@@ -87,10 +87,10 @@ body {
 	overflow-x: hidden;
 }
 
-html,
-body {
-	overscroll-behavior: none;
-}
+// html,
+// body {
+// 	overscroll-behavior: none;
+// }
 
 a {
 	color: inherit;
