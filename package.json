@@ -38,7 +38,6 @@
 		"vite": "^6.0.9"
 	},
 	"dependencies": {
-		"@inlang/paraglide-sveltekit": "^0.15.5",
 		"@oslojs/encoding": "^1.1.0",
 		"drizzle-orm": "^0.38.4",
 		"mysql2": "^3.12.0"

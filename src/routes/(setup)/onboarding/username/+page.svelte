@@ -2,16 +2,15 @@
 	import { enhance } from '$app/forms';
 	import Button from '$components/Button.svelte';
 	import TextInput from '$components/TextInput.svelte';
-	import * as m from '$lib/paraglide/messages.js';
 
 	let { form } = $props();
 	let loading = $state(false);
 </script>
 
 <main>
-	<h1>{m.choose_username_header()}</h1>
+	<h1>Choisissez un nom d'utilisateur</h1>
 
-	<p>{m.change_username_description()}</p>
+	<p>Ce nom sera visible par les autres utilisateurs. Il doit être entre 3 et 20 caractères.</p>
 
 	<form
 		use:enhance={() => {
@@ -24,13 +23,11 @@
 			name="username"
 			minlength={3}
 			maxlength={20}
-			placeholder={m.username()}
+			placeholder="Nom d'utilisateur"
 			error={form?.message}
 		/>
 
-		<Button>
-			{m.button_continue()}
-		</Button>
+		<Button>Continuer</Button>
 	</form>
 </main>
 

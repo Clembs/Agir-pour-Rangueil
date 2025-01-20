@@ -1,7 +1,5 @@
 <script lang="ts">
 	import '../app.scss';
-	import { i18n } from '$lib/i18n';
-	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import { IconContext } from 'phosphor-svelte';
 
 	let { children } = $props();
@@ -16,13 +14,11 @@
 	}}
 />
 
-<ParaglideJS {i18n}>
-	<IconContext
-		values={{
-			size: 24
-			// weight: 'duotone'
-		}}
-	>
-		{@render children()}
-	</IconContext>
-</ParaglideJS>
+<IconContext
+	values={{
+		size: 24
+		// weight: 'duotone'
+	}}
+>
+	{@render children()}
+</IconContext>

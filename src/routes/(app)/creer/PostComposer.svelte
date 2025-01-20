@@ -2,9 +2,8 @@
 	import Button from '$components/Button.svelte';
 	import TextInput from '$components/TextInput.svelte';
 	import { CaretLeft, PaperPlaneRight } from 'phosphor-svelte';
-	import * as m from '$lib/paraglide/messages.js';
 	import { enhance } from '$app/forms';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let {
 		imageBase64,
@@ -32,7 +31,7 @@
 	action="/api/posts?/createPost"
 	method="post"
 >
-	{$page.form?.message}
+	{page.form?.message}
 	<div id="preview-image">
 		<input type="hidden" name="image-base64" value={imageBase64} />
 		<img src={imageBase64} alt="Camera preview" />
@@ -40,7 +39,7 @@
 
 	<div class="transition">
 		<TextInput
-			label={m.create_content_label()}
+			label="Texte de votre post"
 			minheight={100}
 			maxlength={250}
 			name="content"
@@ -50,15 +49,15 @@
 		<div id="buttons">
 			<Button type="button" variant="colored" onclick={oncancel}>
 				<CaretLeft size={20} />
-				{m.back()}
+				Retour
 			</Button>
 
 			<Button disabled={postingState === 'loading'}>
 				<PaperPlaneRight size={20} />
 				{#if postingState === 'loading'}
-					{m.uploading()}
+					Post en cours...
 				{:else}
-					{m.create()}
+					Poster
 				{/if}
 			</Button>
 		</div>

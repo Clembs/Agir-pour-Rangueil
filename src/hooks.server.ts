@@ -1,5 +1,4 @@
 import type { Handle } from '@sveltejs/kit';
-import { i18n } from '$lib/i18n';
 import { refreshSession } from '$lib/server/session';
 import { db } from '$lib/server/db';
 
@@ -26,9 +25,6 @@ export const handle: Handle = async (input) => {
 
 	event.locals.getSession = () => session;
 	event.locals.getUser = () => currentUser;
-
-	const handleParaglide: Handle = i18n.handle();
-	handleParaglide(input);
 
 	return await resolve(event);
 };

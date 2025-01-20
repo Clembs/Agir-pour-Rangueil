@@ -1,4 +1,4 @@
-export function formatRelativeTime(date: Date, locale: string): string {
+export function formatRelativeTime(date: Date, locale = 'fr'): string {
 	let amount: number = Math.round((date.getTime() - Date.now()) / 60000);
 	let unit: Intl.RelativeTimeFormatUnit = 'minute';
 

@@ -1,14 +1,11 @@
 <script lang="ts">
-	import * as m from '$lib/paraglide/messages.js';
 	import Header from '$components/Header.svelte';
 	import Post from '$components/Post.svelte';
 
 	let { data } = $props();
 </script>
 
-<Header>
-	{m.home()}
-</Header>
+<Header>Accueil</Header>
 
 <main>
 	<div class="posts">

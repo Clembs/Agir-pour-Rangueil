@@ -2,48 +2,11 @@
 	import { enhance } from '$app/forms';
 	import Skeleton from '$components/Skeleton.svelte';
 	import { formatRelativeTime } from '$lib/format';
-	import { languageTag } from '$lib/paraglide/runtime.js';
 	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
-	import { page } from '$app/stores';
-	import * as m from '$lib/paraglide/messages.js';
-	import TextInput from '$components/TextInput.svelte';
+	// import TextInput from '$components/TextInput.svelte';
+	import { share } from '$components/Post.svelte';
 
 	let { data } = $props();
-
-	async function share() {
-		if (!data.post) return;
-
-		let file: File | undefined = undefined;
-
-		try {
-			// fetch the image as a blob
-			// TODO: woops broke this
-			const fileBlob = await (await fetch(data.post.imageUrl)).blob();
-
-			// the file name doesn't really matter
-			file = new File([fileBlob], 'file.webp', {
-				type: fileBlob.type
-			});
-		} catch (error) {
-			console.error(error);
-		}
-
-		const postAbsoluteUrl = `${$page.url.origin}/posts/${data.post.id}`;
-
-		const shareData: ShareData = {
-			title: data.post.content,
-			text: data.post.content,
-			url: postAbsoluteUrl,
-			files: file ? [file] : []
-		};
-
-		// share rich content if possible, otherwise fallback to text
-		if (navigator.share && navigator.canShare(shareData)) {
-			navigator.share(shareData);
-		} else {
-			navigator.clipboard.writeText(postAbsoluteUrl);
-		}
-	}
 
 	let hasLiked = $state(data.user?.likes?.find((l) => l.postId === data.post?.id));
 	let likes = $state(data.post?.likes.length);
@@ -65,7 +28,7 @@
 		</a>
 		<span class="subtext"> • </span>
 		<time class="subtext" datetime={data.post.createdAt?.toISOString()}>
-			{formatRelativeTime(data.post.createdAt, languageTag())}
+			{formatRelativeTime(data.post.createdAt)}
 		</time>
 	</div>
 
@@ -105,16 +68,16 @@
 
 			{data.post.comments.length}
 
-			<button onclick={share}>
+			<button onclick={() => share(data.post)}>
 				<ShareFat size={32} />
 			</button>
 		</div>
 	</div>
 
 	<div class="comments">
-		<h2>{m.comments()}</h2>
-
-		<TextInput name="comment" placeholder={m.comment_placeholder()} />
+		<!-- <h2>Commentaires</h2> -->
+		<!-- 
+		<TextInput name="comment" placeholder="Ajouter un commentaire..." /> -->
 
 		{#each data.post.comments as comment}
 			<div class="comment">

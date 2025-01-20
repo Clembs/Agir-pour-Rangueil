@@ -1,26 +1,28 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import * as m from '$lib/paraglide/messages.js';
-	import { Acorn, AppleLogo, Confetti, GoogleLogo, PlusSquare } from 'phosphor-svelte';
+	import { Acorn, Confetti, GoogleLogo, PlusSquare } from 'phosphor-svelte';
 </script>
 
 <main>
-	<h1>{m.welcome_header()}</h1>
+	<h1>Bienvenue sur Agir pour Rangueil (bêta)</h1>
 
-	<p>{m.welcome_description()}</p>
+	<p>
+		Un réseau social développé par des étudiant•es de l'IUT Paul Sabatier pour encourager l'action
+		écologique.
+	</p>
 
 	<ul>
-		<li><PlusSquare /> {m.welcome_post()}</li>
-		<li><Acorn /> {m.welcome_acorns()}</li>
+		<li><PlusSquare /> Postez des photos de vos actions écologiques</li>
+		<li><Acorn /> Collectez des points et participez à la forêt virtuelle (À venir)</li>
 		<li>
 			<Confetti />
-			{m.welcome_quiz()}
+			Participez à des quiz pour mettre vos connaissances écologiques à l'épreuve (À venir)
 		</li>
 	</ul>
 
 	<Button variant="colored" background-color="blue" text-color="white" href="/login/google">
 		<GoogleLogo weight="bold" />
-		{m.login_with_google()}
+		Se connecter avec Google
 	</Button>
 </main>
 

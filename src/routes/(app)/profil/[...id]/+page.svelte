@@ -2,7 +2,6 @@
 	import Header from '$components/Header.svelte';
 	import Post from '$components/Post.svelte';
 	import Skeleton from '$components/Skeleton.svelte';
-	import * as m from '$lib/paraglide/messages.js';
 
 	let { data } = $props();
 </script>
@@ -16,7 +15,7 @@
 	<div class="stats">
 		<div class="stat">
 			<h2>{data.user.acorns}</h2>
-			<p>{m.acorns()}</p>
+			<p>Points</p>
 		</div>
 		<!-- TODO: classement -->
 		<div class="stat">
@@ -25,7 +24,7 @@
 			{:then posts}
 				<h2>{posts.length}</h2>
 			{/await}
-			<p>{m.posts()}</p>
+			<p>Posts</p>
 		</div>
 	</div>
 

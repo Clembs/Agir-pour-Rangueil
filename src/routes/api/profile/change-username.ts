@@ -1,7 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { db } from '$lib/server/db';
-import * as m from '$lib/paraglide/messages.js';
 import { user } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -14,7 +13,9 @@ export async function changeUsername({ locals: { getUser }, url, request }: Requ
 	const newUsername = formData.get('username')?.toString()?.trim();
 
 	if (!newUsername || newUsername.length < 3 || newUsername.length > 20) {
-		return fail(400, { message: m.change_username_error_length() });
+		return fail(400, {
+			message: "Ce nom d'utilisateur est déjà pris."
+		});
 	}
 
 	if (newUsername === currentUser.username) {
@@ -27,7 +28,9 @@ export async function changeUsername({ locals: { getUser }, url, request }: Requ
 	});
 
 	if (userExists) {
-		return fail(400, { message: m.change_username_error_taken() });
+		return fail(400, {
+			message: "Ce nom d'utilisateur est déjà pris."
+		});
 	}
 
 	await db

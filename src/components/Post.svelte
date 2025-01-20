@@ -1,27 +1,5 @@
-<script lang="ts">
-	import { formatRelativeTime } from '$lib/format';
-	import type { Post } from '$lib/server/db/types';
-	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
-	import * as m from '$lib/paraglide/messages.js';
-	import { languageTag } from '$lib/paraglide/runtime.js';
-	import Skeleton from './Skeleton.svelte';
-	import { page } from '$app/stores';
-	import { enhance } from '$app/forms';
-
-	let {
-		post,
-		skeleton
-	}:
-		| {
-				post: Post;
-				skeleton?: false;
-		  }
-		| {
-				post?: undefined;
-				skeleton: true;
-		  } = $props();
-
-	async function share() {
+<script lang="ts" module>
+	export async function share(post: Post) {
 		if (!post) return;
 
 		let file: File | undefined = undefined;
@@ -39,7 +17,7 @@
 			console.error(error);
 		}
 
-		const postAbsoluteUrl = `${$page.url.origin}/posts/${post.id}`;
+		const postAbsoluteUrl = `${page.url.origin}/posts/${post.id}`;
 
 		const shareData: ShareData = {
 			title: post.content,
@@ -55,13 +33,35 @@
 			navigator.clipboard.writeText(postAbsoluteUrl);
 		}
 	}
+</script>
 
-	let hasLiked = $state($page.data.user?.likes?.find((l) => l.postId === post?.id));
+<script lang="ts">
+	import { formatRelativeTime } from '$lib/format';
+	import type { Post } from '$lib/server/db/types';
+	import { ChatCircle, Heart, ShareFat } from 'phosphor-svelte';
+	import Skeleton from './Skeleton.svelte';
+	import { page } from '$app/state';
+	import { enhance } from '$app/forms';
+
+	let {
+		post,
+		skeleton
+	}:
+		| {
+				post: Post;
+				skeleton?: false;
+		  }
+		| {
+				post?: undefined;
+				skeleton: true;
+		  } = $props();
+
+	let hasLiked = $state(page.data.user?.likes?.find((l) => l.postId === post?.id));
 
 	$effect(() => {
-		if (!post || !$page.data.user) return;
+		if (!post || !page.data.user) return;
 
-		hasLiked = $page.data.user.likes.find((l) => l.postId === post.id);
+		hasLiked = page.data.user.likes.find((l) => l.postId === post.id);
 	});
 </script>
 
@@ -84,12 +84,12 @@
 			</a>
 			<span class="subtext"> • </span>
 			<time class="subtext" datetime={post.createdAt?.toISOString()}>
-				{formatRelativeTime(post.createdAt, languageTag())}
+				{formatRelativeTime(post.createdAt)}
 			</time>
 		</div>
 
 		<!-- random tilt between -2 and 2deg -->
-		<img src={post.imageUrl} alt="Related to the post" style:rotate="{Math.random() * 2 - 1}deg" />
+		<img src={post.imageUrl} alt={post.content} style:rotate="{Math.random() * 2 - 1}deg" />
 
 		<div class="profile-content">
 			<p>{post.content}</p>
@@ -110,14 +110,12 @@
 				<button>
 					<ChatCircle size={32} />
 				</button>
-				<button onclick={share}>
+				<button onclick={() => share(post)}>
 					<ShareFat size={32} />
 				</button>
 			</div>
 
-			<a class="view-comments-button" href="/posts/{post.id}">
-				{m.comments()}
-			</a>
+			<a class="view-comments-button" href="/posts/{post.id}"> Commentaires </a>
 		</div>
 	{/if}
 </article>

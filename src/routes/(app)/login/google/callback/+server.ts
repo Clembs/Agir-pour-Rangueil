@@ -60,6 +60,6 @@ export async function GET(event: RequestEvent) {
 		});
 	} catch (e) {
 		console.error(e);
-		error(500, 'Erreur lors de la création de la session.');
+		redirect(302, '/');
 	}
 }
