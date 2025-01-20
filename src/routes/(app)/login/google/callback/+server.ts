@@ -7,7 +7,7 @@ import type { User } from '$lib/server/db/types';
 import type { Credentials, TokenInfo } from 'google-auth-library';
 import { createSession } from '$lib/server/session';
 
-export async function GET(event: RequestEvent): Promise<Response> {
+export async function GET(event: RequestEvent) {
 	const code = decodeURI(event.url.searchParams.get('code')!);
 
 	let tokens: Credentials;
@@ -51,15 +51,15 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	}
 
 	try {
-		await createSession(event, user.id);
+		await createSession(event, user.id).then(() => {
+			if (newUser) {
+				redirect(302, '/onboarding/username');
+			} else {
+				redirect(302, '/');
+			}
+		});
 	} catch (e) {
 		console.error(e);
 		error(500, 'Erreur lors de la création de la session.');
-	}
-
-	if (newUser) {
-		redirect(302, '/onboarding/username');
-	} else {
-		redirect(302, '/');
 	}
 }

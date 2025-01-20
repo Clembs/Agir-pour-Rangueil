@@ -6,6 +6,7 @@
 	import { languageTag } from '$lib/paraglide/runtime.js';
 	import Skeleton from './Skeleton.svelte';
 	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
 
 	let {
 		post,
@@ -54,6 +55,14 @@
 			navigator.clipboard.writeText(postAbsoluteUrl);
 		}
 	}
+
+	let hasLiked = $state($page.data.user?.likes?.find((l) => l.postId === post?.id));
+
+	$effect(() => {
+		if (!post || !$page.data.user) return;
+
+		hasLiked = $page.data.user.likes.find((l) => l.postId === post.id);
+	});
 </script>
 
 <article>
@@ -89,9 +98,15 @@
 		<!-- TODO: make these look nicer and functional -->
 		<div class="buttons">
 			<div class="primary-actions">
-				<button>
-					<Heart size={32} />
-				</button>
+				<form use:enhance action="/api/posts?/likePost&postId={post.id}" method="post">
+					<button onmousedown={() => (hasLiked = !hasLiked)}>
+						{#if hasLiked}
+							<Heart weight="fill" color="var(--color-accent)" size={32} />
+						{:else}
+							<Heart size={32} />
+						{/if}
+					</button>
+				</form>
 				<button>
 					<ChatCircle size={32} />
 				</button>

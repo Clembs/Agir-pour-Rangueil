@@ -10,21 +10,21 @@
 			label: m.home(),
 			href: '/accueil'
 		},
-		{
-			icon: Ranking,
-			label: m.ranking(),
-			href: '/classement'
-		},
+		// {
+		// 	icon: Ranking,
+		// 	label: m.ranking(),
+		// 	href: '/classement'
+		// },
 		{
 			icon: PlusSquare,
 			label: m.create(),
 			href: '/creer'
 		},
-		{
-			icon: TreeEvergreen,
-			label: m.forest(),
-			href: '/foret'
-		},
+		// {
+		// 	icon: TreeEvergreen,
+		// 	label: m.forest(),
+		// 	href: '/foret'
+		// },
 		{
 			icon: UserCircle,
 			label: m.my_profile(),
