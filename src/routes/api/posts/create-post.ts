@@ -2,12 +2,12 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { BACKBLAZE_APPLICATION_ID, BACKBLAZE_APPLICATION_KEY } from '$env/static/private';
 import { db } from '$lib/server/db';
-import { post } from '$lib/server/db/schema';
+import { post, user } from '$lib/server/db/schema';
 
 export async function createPost({ locals: { getUser }, request, fetch }: RequestEvent) {
-	const user = await getUser();
+	const currentUser = await getUser();
 
-	if (!user) redirect(302, '/');
+	if (!currentUser) redirect(302, '/');
 
 	const formData = await request.formData();
 
@@ -94,7 +94,7 @@ export async function createPost({ locals: { getUser }, request, fetch }: Reques
 			'Content-Length': base64Buffer.byteLength.toString(),
 			'Content-Type': mimeType,
 			'X-Bz-File-Name': fileName,
-			'X-Bz-Info-Author': user.id.toString(),
+			'X-Bz-Info-Author': currentUser.id.toString(),
 			'X-Bz-Content-Sha1': hashHex
 		},
 		body: base64Buffer,
@@ -113,11 +113,16 @@ export async function createPost({ locals: { getUser }, request, fetch }: Reques
 	const [{ id }] = await db
 		.insert(post)
 		.values({
-			authorId: user.id,
+			authorId: currentUser.id,
 			imageUrl: `${downloadUrl}/file/${bucketName}/${fileName}`,
 			content
 		})
 		.$returningId();
+
+	// Add acorns to user
+	await db.update(user).set({
+		acorns: currentUser.acorns + 500
+	});
 
 	redirect(302, `/posts/${id}`);
 }
